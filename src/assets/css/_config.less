@@ -1,0 +1,188 @@
+//-- 颜色(color)定义 @c_
+@c_main: #009688; //主色：标题、重要信息
+@c_success: #67c23a; //成功色
+@c_warn: #ffb800; // 警告色
+@c_danger: #ff5722; // 危险色 错误色
+@c_info: #909399; // 状态离线或者不可用
+@c_font: #030303; // 字体色
+@c_font_main: #3a3838; // 常规字体颜色
+@c_font_sec: #8a8686; // 辅助字体颜色
+@c_font_place: #8a8686; // 占位颜色
+@c_bor_base: #dddddd; // 边框
+@c_bor_bor_light: #e2e2e2; // 亮边框
+@c_bor_bor_lighter: #eeeeee; // 更亮的边框
+@c_bor_bor_lightest: #f2f2f2; // 超亮边框
+@c_white: #fff; // 白色
+@c_black: #393d49; // 黑色背景
+@c_block: #f0f0f0; // 普通背景（不是白色）
+
+
+//-- 尺寸(size)定义 @s_
+@s_font_larger: 20px; // 超大字号
+@s_font_large: 18px; // 大字号
+@s_font_medium: 16px; // 中等字号
+@s_font: 14px; // 字体大小
+@s_font_small: 13px; // 小字号
+@s_font_smaller: 12px; // 超小字号
+@s_mg_h: 10px;// 水平边距
+@s_mg_v: 10px;// 竖直边距
+
+
+
+//--  其他(else)定义 @e_
+@e_active_opacity: .75; //一般元素 :active 时的透明度
+
+.l_pre(@style, @value) {
+    //为 animation, transform, transition 添加前缀
+    //----- 示例 -----
+    //.l_pre(transition, all 1s linear 0s);
+    -webkit-@{style}: @value;
+    -moz-@{style}: @value;
+    -ms-@{style}: @value;
+        @{style}: @value;
+}
+
+.l_keyframes(@name, @content) {
+
+    //----- 示例 -----
+    //.l_keyframes(aniName, { from{ opacity: 1;} to{ opacity: 0;} });
+    @-webkit-keyframes @name {
+        @content();
+    }
+
+    @-moz-keyframes @name {
+        @content();
+    }
+
+    @-o-keyframes @name {
+        @content();
+    }
+
+    @-ms-keyframes @name {
+        @content();
+    }
+
+    @keyframes @name {
+        @content();
+    }
+}
+
+//清除浮动
+.l_clear() {
+
+    //----- 示例 -----
+    //.l_clear()
+    //overflow: hidden;
+    &:after {
+        content: "";
+        display: block;
+        height: 0;
+        clear: both;
+    }
+}
+
+.l_nowrap() {
+    //禁止换行
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* 省略号 */
+    word-break: normal;
+    /* 防止被父级 wordwrap 样式影响 */
+    word-wrap: normal;
+}
+
+.l_wordwrap() {
+    //强制换行
+    white-space: normal;
+    word-break: break-all;
+    /*支持IE，chrome，FF不支持*/
+    word-wrap: break-word;
+    /*支持IE，chrome，FF*/
+}
+
+.l_noselect() {
+    //禁止选中
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+//placeholder 颜色
+.l_placeholder(@color: #ccc) {
+
+    //----- 示例 -----
+    //input{
+    //    .l_placeholder(#fff);
+    //}
+    //WebKit browsers
+    &::-webkit-input-placeholder {
+        color: @color;
+    }
+
+    //Mozilla Firefox 19+
+    &::-moz-placeholder {
+        color: @color;
+    }
+
+    //Internet Explorer 10+
+    &:-ms-input-placeholder {
+        color: @color;
+    }
+}
+
+//取消下拉框默认样式
+.l_appearance_none() {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+//隐藏滚动条
+.l_noscrollbar() {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+//超过@line行文字隐藏
+.l_clamp(@line: 1) {
+    display: -webkit-box;
+    overflow: hidden;
+    .l_wordwrap();
+    -webkit-line-clamp: @line;
+    -webkit-box-orient: vertical;
+}
+
+//线性渐变
+.l_linear_gradient(@cstart, @cend, @endpoint: bottom) {
+    //----- 示例 -----
+    //.l_linear_gradient(#f00, #ff0, top);
+    //@endpoint 终点位置：top bottom
+    background-image: linear-gradient(to @endpoint, @cstart, @cend);
+    background-image: -ms-linear-gradient(to @endpoint, @cstart, @cend);
+    background-image: -moz-linear-gradient(to @endpoint, @cstart, @cend);
+    background-image: -webkit-linear-gradient(to @endpoint, @cstart, @cend);
+    background-image: -o-linear-gradient(to @endpoint, @cstart, @cend);
+}
+
+//径向渐变：position 为 center，shape 为 ellipse
+.l_radial_gradient(@cstart, @cend) {
+    //----- 示例 -----
+    //.l_radial_gradient(#f00, #ff0);
+    background-image: radial-gradient(@cstart, @cend);
+    background-image: -ms-radial-gradient(@cstart, @cend);
+    background-image: -moz-radial-gradient(@cstart, @cend);
+    background-image: -webkit-radial-gradient(@cstart, @cend);
+    background-image: -o-radial-gradient(@cstart, @cend);
+}
